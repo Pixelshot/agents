@@ -29,3 +29,9 @@ To get started with this project, follow these steps:
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
+
+## Notes
+
+- When memory is added to the AgentExecutor, it doesn't behave as one might expect.
+- Messages from intermediate_steps are wiped out as soon as the while loop stops.
+- It doesn't get persisted to memory. The only thing that gets transferred to memory is the **final Ai message received that stops the while loop (Usually seen as the result received from GPT) & the initial Human Message**.
