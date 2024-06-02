@@ -11,9 +11,17 @@ from dotenv import load_dotenv
 
 from tools.sql import run_query_tool, list_tables, describe_tables_tool
 from tools.report import write_report_tool
-load_dotenv()
+from handlers.chat_model_start_handler import ChatModelStartHandler
 
-chat = ChatOpenAI()
+load_dotenv()
+# For more info on this handler, see # 64.
+# This handler basically prints out the messages that are being passed into the model. Enabling us to omit the verbose=True parameter.
+# Think of it as a way to debug the program.
+handler = ChatModelStartHandler()
+chat = ChatOpenAI(
+    # Why we're setting this up as a list is because we can have multiple handlers.
+    callbacks=[handler],
+)
 tables = list_tables()
 prompt = ChatPromptTemplate(
     messages=[
@@ -46,7 +54,7 @@ agent = OpenAIFunctionsAgent(
 
 agent_executor = AgentExecutor(
     agent=agent,
-    verbose=True, 
+    # verbose=True, 
     tools=tools,
     memory=memory
 )
